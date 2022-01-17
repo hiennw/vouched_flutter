@@ -17,6 +17,7 @@ A new Flutter project.
   s.dependency 'Flutter'
   s.platform = :ios, '11.0'
   s.dependency 'Vouched', '0.9.1'
+  s.ios.deployment_target = '11.0'
   s.static_framework = true
 
   # Flutter.framework does not contain a i386 slice.
