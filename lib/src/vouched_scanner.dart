@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-import '../../vouched_flutter.dart';
 import '../src/model/card_detail_result.dart';
 import '../src/model/job_response.dart';
+import '../vouched_flutter.dart';
 
 typedef _ProgressIndicatorCallback = Widget Function(BuildContext, bool);
 
@@ -18,8 +18,8 @@ const _eventChannel = EventChannel('com.acmesoftware.vouched/event');
 
 class VouchedScanner extends StatefulWidget {
   const VouchedScanner({
-    Key? key,
-    required this.onResponse,
+    Key key,
+    @required this.onResponse,
     this.apiKey,
     this.borderRadius,
     this.onCardDetailResult,
@@ -28,11 +28,11 @@ class VouchedScanner extends StatefulWidget {
   }) : super(key: key);
 
   final ValueChanged<JobResponse> onResponse;
-  final String? apiKey;
-  final BorderRadius? borderRadius;
-  final ValueChanged<CardDetailResult>? onCardDetailResult;
-  final ValueChanged<String>? onError;
-  final _ProgressIndicatorCallback? loadingBuilder;
+  final String apiKey;
+  final BorderRadius borderRadius;
+  final ValueChanged<CardDetailResult> onCardDetailResult;
+  final ValueChanged<String> onError;
+  final _ProgressIndicatorCallback loadingBuilder;
 
   @override
   State<VouchedScanner> createState() => _VouchedScannerState();
@@ -42,7 +42,7 @@ class _VouchedScannerState extends State<VouchedScanner> {
   final Map<String, dynamic> creationParams = {};
   final ValueNotifier<bool> _isLoading = ValueNotifier(false);
 
-  StreamSubscription? _subscription;
+  StreamSubscription _subscription;
 
   @override
   void initState() {
@@ -141,9 +141,9 @@ class _VouchedScannerState extends State<VouchedScanner> {
 
 class _PlatformView extends StatelessWidget {
   const _PlatformView({
-    Key? key,
-    required this.creationParams,
-    required this.onViewCreated,
+    Key key,
+    @required this.creationParams,
+    @required this.onViewCreated,
   }) : super(key: key);
 
   final Map<String, dynamic> creationParams;
@@ -191,20 +191,20 @@ class _PlatformView extends StatelessWidget {
 
 class _ProgressIndicator extends StatelessWidget {
   const _ProgressIndicator({
-    Key? key,
-    required this.loadingNotifier,
-    required this.loadingBuilder,
+    Key key,
+    @required this.loadingNotifier,
+    @required this.loadingBuilder,
   }) : super(key: key);
 
   final ValueNotifier<bool> loadingNotifier;
-  final _ProgressIndicatorCallback? loadingBuilder;
+  final _ProgressIndicatorCallback loadingBuilder;
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
       valueListenable: loadingNotifier,
       builder: (context, isLoading, loader) {
-        if (loadingBuilder != null) return loadingBuilder!(context, isLoading);
+        if (loadingBuilder != null) return loadingBuilder(context, isLoading);
 
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
@@ -214,8 +214,8 @@ class _ProgressIndicator extends StatelessWidget {
       },
       child: const Center(
         child: CircularProgressIndicator(
-          color: Colors.white,
           strokeWidth: 2,
+          backgroundColor: Colors.white,
         ),
       ),
     );

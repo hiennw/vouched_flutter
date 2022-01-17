@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:vouched_flutter/vouched_flutter.dart';
 import 'package:vouched_example/detail_page.dart';
 
@@ -8,7 +7,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,29 +22,29 @@ class MyApp extends StatelessWidget {
 }
 
 class ScannerPage extends StatefulWidget {
-  const ScannerPage({Key? key}) : super(key: key);
+  const ScannerPage({Key key}) : super(key: key);
 
   @override
   State<ScannerPage> createState() => _ScannerPageState();
 }
 
 class _ScannerPageState extends State<ScannerPage> {
-  CardDetailInstruction? _instruction;
-  String? _image;
+  CardDetailInstruction _instruction;
+  String _image;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness:
-              Theme.of(context).brightness == Brightness.light
-                  ? Brightness.dark
-                  : Brightness.light,
-        ),
+        // systemOverlayStyle: SystemUiOverlayStyle(
+        //   statusBarColor: Colors.transparent,
+        //   statusBarIconBrightness:
+        //       Theme.of(context).brightness == Brightness.light
+        //           ? Brightness.dark
+        //           : Brightness.light,
+        // ),
         title: const Text('Vouched Demo'),
-        foregroundColor: Theme.of(context).colorScheme.onSurface,
+        // foregroundColor: Theme.of(context).colorScheme.onSurface,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,

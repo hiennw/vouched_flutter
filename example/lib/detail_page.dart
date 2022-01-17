@@ -5,13 +5,13 @@ import 'package:vouched_flutter/vouched_flutter.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({
-    Key? key,
-    required this.response,
-    required this.image,
+    Key key,
+    @required this.response,
+    @required this.image,
   }) : super(key: key);
 
   final JobResponse response;
-  final String? image;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class DetailPage extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 1,
                 child: Image.memory(
-                  base64Decode(image!),
+                  base64Decode(image),
                   fit: BoxFit.fitWidth,
                 ),
               ),
@@ -83,17 +83,17 @@ class DetailPage extends StatelessWidget {
 
 class _DetailTile extends StatelessWidget {
   const _DetailTile({
-    Key? key,
-    required this.label,
-    required this.value,
+    Key key,
+    @required this.label,
+    @required this.value,
   }) : super(key: key);
 
-  final String? value;
+  final String value;
   final String label;
 
   @override
   Widget build(BuildContext context) {
-    final _value = value == null || value!.isEmpty ? 'N/A' : value!;
+    final _value = value == null || value.isEmpty ? 'N/A' : value;
 
     return ListTile(
       title: Text(_value),

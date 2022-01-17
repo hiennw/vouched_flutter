@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 abstract class _Model {
   Map<String, dynamic> toMap();
 
@@ -8,11 +10,11 @@ abstract class _Model {
 
 class JobResponse extends _Model {
   JobResponse({
-    required this.id,
-    required this.token,
-    required this.result,
-    required this.errors,
-    required this.signals,
+    @required this.id,
+    @required this.token,
+    @required this.result,
+    @required this.errors,
+    @required this.signals,
   });
 
   /// The job ID.
@@ -22,7 +24,7 @@ class JobResponse extends _Model {
   final String token;
 
   /// Successfully completed job result.
-  final JobResult? result;
+  final JobResult result;
 
   /// List of errors for unsuccessful completed jobs.
   final List<JobError> errors;
@@ -65,10 +67,10 @@ class JobResponse extends _Model {
 
 class JobError extends _Model {
   JobError({
-    required this.type,
-    required this.message,
-    required this.warning,
-    required this.suggestion,
+    @required this.type,
+    @required this.message,
+    @required this.warning,
+    @required this.suggestion,
   });
 
   /// Error type code.
@@ -107,23 +109,23 @@ class JobError extends _Model {
 
 class JobResult extends _Model {
   JobResult({
-    required this.success,
-    required this.warnings,
-    required this.gender,
-    required this.type,
-    required this.state,
-    required this.country,
-    required this.id,
-    required this.expireDate,
-    required this.issueDate,
-    required this.idType,
-    required this.endorsements,
-    required this.motorcycle,
-    required this.birthDate,
-    required this.firstName,
-    required this.middleName,
-    required this.lastName,
-    required this.confidences,
+    @required this.success,
+    @required this.warnings,
+    @required this.gender,
+    @required this.type,
+    @required this.state,
+    @required this.country,
+    @required this.id,
+    @required this.expireDate,
+    @required this.issueDate,
+    @required this.idType,
+    @required this.endorsements,
+    @required this.motorcycle,
+    @required this.birthDate,
+    @required this.firstName,
+    @required this.middleName,
+    @required this.lastName,
+    @required this.confidences,
   });
 
   /// Did the id verification completed successfully with no errors?
@@ -176,7 +178,7 @@ class JobResult extends _Model {
   /// The user's verified last name.
   final String lastName;
 
-  final ResultConfidences? confidences;
+  final ResultConfidences confidences;
 
   factory JobResult.fromJson(String str) => JobResult.fromMap(jsonDecode(str));
 
@@ -232,17 +234,17 @@ class JobResult extends _Model {
 
 class ResultConfidences extends _Model {
   ResultConfidences({
-    required this.id,
-    required this.idQuality,
-    required this.idGlareQuality,
-    required this.selfie,
-    required this.idMatch,
-    required this.idExpired,
-    required this.faceMatch,
-    required this.birthDateMatch,
-    required this.nameMatch,
-    required this.selfieSunglasses,
-    required this.selfieEyeglasses,
+    @required this.id,
+    @required this.idQuality,
+    @required this.idGlareQuality,
+    @required this.selfie,
+    @required this.idMatch,
+    @required this.idExpired,
+    @required this.faceMatch,
+    @required this.birthDateMatch,
+    @required this.nameMatch,
+    @required this.selfieSunglasses,
+    @required this.selfieEyeglasses,
   });
 
   /// Confidence score for an id photo.
@@ -318,8 +320,8 @@ class ResultConfidences extends _Model {
 
 class GenderDistributionClass extends _Model {
   GenderDistributionClass({
-    required this.man,
-    required this.woman,
+    @required this.man,
+    @required this.woman,
   });
 
   /// Frequency with a range 0-100 of the first name in men with a minimum found frequency of 0.0001
@@ -350,8 +352,8 @@ class GenderDistributionClass extends _Model {
 
 class ResultGender extends _Model {
   ResultGender({
-    required this.gender,
-    required this.genderDistribution,
+    @required this.gender,
+    @required this.genderDistribution,
   });
 
   /// man or woman based on extracted fields from the ID.
@@ -384,11 +386,11 @@ class ResultGender extends _Model {
 
 class Signal extends _Model {
   Signal({
-    required this.category,
-    required this.message,
-    required this.type,
-    required this.fields,
-    required this.property,
+    @required this.category,
+    @required this.message,
+    @required this.type,
+    @required this.fields,
+    @required this.property,
   });
 
   /// Affected verification category.

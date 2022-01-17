@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 
 enum CardDetailStep {
@@ -28,16 +29,16 @@ enum CardDetailInstruction {
 
 class CardDetailResult {
   const CardDetailResult({
-    required this.step,
-    required this.instruction,
-    required this.image,
-    required this.location,
+    @required this.step,
+    @required this.instruction,
+    @required this.image,
+    @required this.location,
   });
 
   final CardDetailStep step;
   final CardDetailInstruction instruction;
   final String image;
-  final Rect? location;
+  final Rect location;
 
   factory CardDetailResult.fromMap(Map<String, dynamic> map) {
     final location = Map<String, double>.from(map['location'] ?? {});
