@@ -15,7 +15,7 @@ A new Flutter project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '12.0'
+  s.platform = :ios, '11.0'
   s.dependency 'Vouched', '0.9.1'
   s.static_framework = true
 
