@@ -33,12 +33,14 @@ class CardDetailResult {
     @required this.instruction,
     @required this.image,
     @required this.location,
+    @required this.distanceImage,
   });
 
   final CardDetailStep step;
   final CardDetailInstruction instruction;
   final String image;
   final Rect location;
+  final String distanceImage;
 
   factory CardDetailResult.fromMap(Map<String, dynamic> map) {
     final location = Map<String, double>.from(map['location'] ?? {});
@@ -56,12 +58,14 @@ class CardDetailResult {
               location['r'] ?? 0,
               location['b'] ?? 0,
             ),
+        distanceImage: map['distance_image']
     );
   }
 
   @override
   String toString() {
-    return 'CardDetailResult{step: $step, instruction: $instruction, image: $image, location: $location}';
+    return 'CardDetailResult{step: $step, instruction: $instruction, '
+        'location: $location, image: $image, distanceImage: $distanceImage}';
   }
 }
 

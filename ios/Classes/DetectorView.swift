@@ -8,7 +8,7 @@ class DetectorView: NSObject, FlutterPlatformView, FlutterStreamHandler {
   private var eventSink: FlutterEventSink? = nil
   private var session: VouchedSession
   private var channel: FlutterMethodChannel
-
+  private var verificationParams: [String: Any]?
   init(
     frame: CGRect,
     viewIdentifier viewId: Int64,
@@ -24,13 +24,14 @@ class DetectorView: NSObject, FlutterPlatformView, FlutterStreamHandler {
       apiKey: args["api_key"] as? String,
       sessionParameters: VouchedSessionParameters()
     )
-
+    verificationParams = args;
     super.init()
     FlutterEventChannel(name: "com.acmesoftware.vouched/event", binaryMessenger: messenger)
       .setStreamHandler(self)
   }
 
-  private func configureHelper() {
+    @available(iOS 12.0, *)
+    private func configureHelper() {
     channel.setMethodCallHandler { (call: FlutterMethodCall, result: FlutterResult) -> Void in
       switch call.method {
       case "pauseCamera": self.pauseCamera()
@@ -73,7 +74,12 @@ class DetectorView: NSObject, FlutterPlatformView, FlutterStreamHandler {
         cameraHelper?.stopCapture()
         DispatchQueue.global().async {
           do {
-            let job = try self.session.postFrontId(detectedCard: result)
+            let details = Params(firstName: self.verificationParams?["first_name"] as? String,
+                                 lastName: self.verificationParams?["last_name"] as? String, email: self
+                .verificationParams?["email"] as? String, phone: self.verificationParams?["phone"] as?
+                                 String, birthDate: self
+                .verificationParams?["birth_date"] as? String)
+              let job = try self.session.postFrontId(detectedCard: result, details: details)
             DispatchQueue.main.async { [self] in
               self.channel.invokeMethod("success", arguments: self.convertObjToString(job))
             }
@@ -90,7 +96,7 @@ class DetectorView: NSObject, FlutterPlatformView, FlutterStreamHandler {
     }
   }
 
-  func view() -> UIView {
+    func view() -> UIView {
     self.configureHelper()
     self.cameraHelper?.startCapture()
 

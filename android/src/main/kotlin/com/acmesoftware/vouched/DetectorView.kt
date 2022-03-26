@@ -41,6 +41,7 @@ internal class DetectorView(
     private var cameraHelper: VouchedCameraHelper? = null
     private val lifecycle = Shared.getLifecycle()
     private var eventSink: EventChannel.EventSink? = null
+    private val verificationParams: Map<String, Any>? = creationParams
 
     init {
         lifecycle?.addObserver(this)
@@ -101,7 +102,8 @@ internal class DetectorView(
             with(result) {
                 successData["step"] = step.name
                 successData["instruction"] = instruction.name
-                successData["image"] = image
+                successData["image"] = result.image
+                successData["distance_image"] = result.distanceImage
                 location?.let {
                     successData["location"] = mapOf(
                         "l" to it.left,
@@ -118,12 +120,16 @@ internal class DetectorView(
                 session.postFrontId(
                     platformViewContext,
                     result,
-                    Params.Builder(),
-                    this
-                )
+                        Params.Builder()
+                                .withFirstName(verificationParams?.get("first_name") as String)
+                                .withLastName(verificationParams?.get("last_name") as String)
+                                .withBirthDate(verificationParams?.get("birth_date") as String)
+                                .withEmail(verificationParams["email"] as String)
+                                .withPhone(verificationParams["phone"] as String), this)
             }
         } catch (e: Exception) {
             eventSink?.error("", e.message, "")
+            e.printStackTrace()
         }
     }
 

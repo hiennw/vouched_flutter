@@ -24,7 +24,7 @@ class VouchedScanner extends StatefulWidget {
     this.borderRadius,
     this.onCardDetailResult,
     this.onError,
-    this.loadingBuilder,
+    this.loadingBuilder, this.verificationParams,
   }) : super(key: key);
 
   final ValueChanged<JobResponse> onResponse;
@@ -33,6 +33,7 @@ class VouchedScanner extends StatefulWidget {
   final ValueChanged<CardDetailResult> onCardDetailResult;
   final ValueChanged<String> onError;
   final _ProgressIndicatorCallback loadingBuilder;
+  final Map<String, dynamic> verificationParams;
 
   @override
   State<VouchedScanner> createState() => _VouchedScannerState();
@@ -47,6 +48,7 @@ class _VouchedScannerState extends State<VouchedScanner> {
   @override
   void initState() {
     super.initState();
+    creationParams.addAll(widget.verificationParams ?? {});
     creationParams['api_key'] = _apiKey;
     Vouched.channel.setMethodCallHandler(
       (call) async {
@@ -92,8 +94,10 @@ class _VouchedScannerState extends State<VouchedScanner> {
               onViewCreated: () {
                 if (_subscription == null) {
                   final _eventStream = _eventChannel.receiveBroadcastStream();
-                  _subscription = _eventStream.listen(_onCardDetectResult);
-                  setState(() {});
+
+                  setState(() {
+                    _subscription = _eventStream.listen(_onCardDetectResult);
+                  });
                 }
               },
             ),

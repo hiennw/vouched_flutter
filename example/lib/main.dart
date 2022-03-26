@@ -49,66 +49,75 @@ class _ScannerPageState extends State<ScannerPage> {
         elevation: 0,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "You're almost there!",
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Use the camera to scan any form of photo ID. '
-                    "We'll use this information to validate your identity.",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        ?.copyWith(height: 1.3),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: VouchedScanner(
-                  borderRadius: BorderRadius.circular(10),
-                  onCardDetailResult: (result) {
-                    _instruction = result.instruction;
-                    _image = result.image;
-                    setState(() {});
-                  },
-                  onResponse: (response) async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailPage(
-                          response: response,
-                          image: _image,
-                        ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "You're almost there!",
+                        style: Theme.of(context).textTheme.headline5,
                       ),
-                    );
-                    Vouched.resumeCamera();
-                  },
-                  onError: (error) {},
+                      const SizedBox(height: 8),
+                      Text(
+                        'Use the camera to scan any form of photo ID. '
+                        "We'll use this information to validate your identity.",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            ?.copyWith(height: 1.3),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                Expanded(
+                  flex: 2,
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: VouchedScanner(
+                      apiKey: "r~Zqx61cPuyV_Bd4pZ.sFsXdU~!69#",
+                      borderRadius: BorderRadius.circular(10),
+                      onCardDetailResult: (result) {
+                        _instruction = result.instruction;
+                        // _image = result.image;
+                        setState(() {});
+                        print(result);
+                      },
+                      onResponse: (response) async {
+                        print(response.toJson());
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailPage(
+                              response: response,
+                              image: _image,
+                            ),
+                          ),
+                        );
+                        await Vouched.resumeCamera();
+                      },
+                      onError: (error) {
+                        print(error);
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Center(child: Text(_readableInstruction)),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).padding.top + kToolbarHeight,
+                )
+              ],
             ),
-            Expanded(
-              child: Center(child: Text(_readableInstruction)),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).padding.top + kToolbarHeight,
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
